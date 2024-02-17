@@ -1,26 +1,3 @@
-#  **<span style="color:green">Landmark Technologies.</span>**
-### **<span style="color:green">Contacts: +1437 215 2483<br> WebSite : <http://mylandmarktech.com/></span>**
-### **Email: mylandmarktech@gmail.com**
-
-
-
-## Kubernetes Setup Using Kubeadm In AWS EC2 Ubuntu Servers.
-##### Prerequisite
-+ AWS Acccount.
-+ Create 3 - Ubuntu Servers -- 18.04.
-+ 1 Master (4GB RAM , 2 Core)  t2.medium
-+ 2 Workers  (1 GB, 1 Core)     t2.micro
-+ Create Security Group and open required ports for kubernetes.
-   + Open all port for this illustration
-+ Attach Security Group to EC2 Instance/nodes.
-
-## Assign hostname &  login as ‘root’ user because the following set of commands need to be executed with ‘sudo’ permissions.
-```sh
-sudo hostnamectl set-hostname master
-sudo -i
-```
-
-``` sh
 #!/bin/bash
 # common.sh
 # copy this script and run in all master and worker nodes
@@ -100,7 +77,7 @@ apt-get install -y apt-transport-https ca-certificates curl
 
 # Download the Google Cloud public signing key:
 
-curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+curl -fsSL https://dl.k8s.io/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
 
 # Add the Kubernetes apt repository:
 
@@ -120,7 +97,7 @@ apt-mark hold kubelet kubeadm kubectl
 systemctl daemon-reload
 systemctl start kubelet
 systemctl enable kubelet.service
-```
+
 ## Initialised the control plane in the master node as the root user.
 ``` sh
 # Initialize Kubernetes control plane by running the below commond as root user.
